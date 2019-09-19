@@ -7,6 +7,7 @@ class Usuario {
     public $nome;
     public $email;
     public $celular;
+    public $logado;
 
     public function logar($login, $senha){
         $conexaoDB = $this->conectarBanco();
@@ -20,9 +21,19 @@ class Usuario {
 
         $resultado = $sql->get_result();
         if($reultado->num_rows() === 0){
-            
+            $this->login = null;
+            $this->nome = null;
+            $this->email = null;
+            $this->celular = null;
+            $this->logado = false;
         }else{
-
+            while($linha = $resultado->fetch_assoc()){
+                $this->login = $linha['login'];
+                $this->nome = $linha['nome'];
+                $this->email = $linha['email'];
+                $this->celular = $linha['celular'];
+                $this->logado = true;
+            }
         }
     }
 
